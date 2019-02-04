@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import addLabel from './canvasLabel';
-import PaperTexture from './paper.jpg';
 
 // document.documentElement.appendChild(canvasLabel);
 
@@ -13,23 +12,13 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-// LIGHTS
-const light = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(light);
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry( 1, 1, 1 ),
+  new THREE.MeshBasicMaterial({color: 'teal'})
+);
 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-
-const material = new THREE.MeshPhongMaterial( {
-  color: 0xF3FFE2,
-  specular: 0xffffff,
-  shininess: 30,
-  map: new THREE.TextureLoader().load(PaperTexture),
-  normalMap: new THREE.TextureLoader().load(PaperTexture)
-} );
-
-const cube = new THREE.Mesh( geometry, material );
-console.log(cube);
 const cubeWithLabel = addLabel(cube, 'Label text');
+
 scene.add( cubeWithLabel );
 
 camera.position.z = 5;

@@ -9,26 +9,27 @@ export default function addLabel(threeObj, text) {
   obj.geometry.computeBoundingSphere();
   const objBoundingSphereRadius = obj.geometry.boundingSphere.radius;
 
-  const label = getLabelSprite(
+  const labelCanvas = getLabelCanvas(
     text,
     48,
     'white',
     'black',
     objBoundingSphereRadius
   );
-  obj.add(label);
 
-  console.log(objBoundingSphereRadius);
+  const spriteLabel = getSpriteLabel(labelCanvas);
+
+  obj.add(spriteLabel);
 
   return obj;
 }
 
-function getLabelSprite(
+function getLabelCanvas(
   sText,
   fontSize,
   sColor,
   sBgColor,
-  objContainingSphereRadius
+  size
 ) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -47,20 +48,19 @@ function getLabelSprite(
 
   // canvas height will be assigned from parameter
   // canvas.height = 500;
-  canvas.height = objContainingSphereRadius * 6;
+  canvas.height = size * 6;
 
   // offset is computed relative to height because of how the design looks like
   const textBoxOffset = canvas.height / 4;
   canvas.width = (textBoxWidth + textBoxOffset) * 2;
   canvas.style.backgroundColor = "rgba(255, 255, 255, 0)";
 
-  console.log(
-    `Canvas width: ${canvas.width}\n`,
-    `Canvas height: ${canvas.height}\n`,
-    `Textbox width: ${textBoxWidth}\n`,
-    `Obj sphere radius: ${objContainingSphereRadius}\n`
-  );
-
+  // console.log(
+  //   `Canvas width: ${canvas.width}\n`,
+  //   `Canvas height: ${canvas.height}\n`,
+  //   `Textbox width: ${textBoxWidth}\n`,
+  //   `Obj sphere radius: ${size}\n`
+  // );
 
   // add the background of the label
   ctx.fillStyle = sBgColor;
@@ -83,11 +83,10 @@ function getLabelSprite(
   ctx.lineTo(canvas.width / 2, canvas.height / 2);
   ctx.stroke();
 
-  // build the ThreeJS sprite
-  return getSpriteObject(canvas);
+  return canvas;
 }
 
-function getSpriteObject(canvas) {
+function getSpriteLabel(canvas) {
   const spriteMaterial = new THREE.SpriteMaterial({
     map: new THREE.CanvasTexture( canvas )
   });
