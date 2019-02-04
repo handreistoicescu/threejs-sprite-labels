@@ -48,7 +48,9 @@ function getLabelCanvas(
 
   // canvas height will be assigned from parameter
   // canvas.height = 500;
+  canvas.width = textBoxWidth;
   canvas.height = size * 6;
+  
 
   // offset is computed relative to height because of how the design looks like
   const textBoxOffset = canvas.height / 4;
@@ -73,7 +75,6 @@ function getLabelCanvas(
 
   ctx.fillText(sText, (canvas.width / 2 + textBoxOffset + textBoxPadding), (fontSize + textBoxPadding));
 
-
   // draw a line from the bottom-center of the text to all the way down the canvas
   ctx.fillStyle = 'gray';
   // draw the underline
@@ -87,10 +88,11 @@ function getLabelCanvas(
 }
 
 function getSpriteLabel(canvas) {
-  const spriteMaterial = new THREE.SpriteMaterial({
+  const material = new THREE.SpriteMaterial({
     map: new THREE.CanvasTexture( canvas )
   });
-  const sprite = new THREE.Sprite( spriteMaterial );
+  console.log(material);
+  const sprite = new THREE.Sprite( material );
 
   sprite.scale.set(1, 1, 1);
 
