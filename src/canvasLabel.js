@@ -11,7 +11,7 @@ export default function addLabel(threeObj, text) {
 
   const labelCanvas = getLabelCanvas(
     text,
-    48,
+    16,
     'white',
     'black',
     objBoundingSphereRadius
@@ -33,7 +33,7 @@ function getLabelCanvas(
 ) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  const fontStyles = `${fontSize}px sans-serif`;
+  const fontStyles = `${fontSize}px monospace`;
 
   // see how wide the text will be
   ctx.font = fontStyles;
@@ -49,12 +49,16 @@ function getLabelCanvas(
   // canvas height will be assigned from parameter
   // canvas.height = 500;
   canvas.width = textBoxWidth;
-  canvas.height = size * 6;
+  console.log(textBoxWidth);
+  // canvas.height = canvas.width;
+  // canvas.width = 512;
+  // canvas.height = 128;
+  // canvas.height = size * 6;
   
 
   // offset is computed relative to height because of how the design looks like
   const textBoxOffset = canvas.height / 4;
-  canvas.width = (textBoxWidth + textBoxOffset) * 2;
+  // canvas.width = (textBoxWidth + textBoxOffset) * 2;
   canvas.style.backgroundColor = "rgba(255, 255, 255, 0)";
 
   // console.log(
@@ -88,13 +92,16 @@ function getLabelCanvas(
 }
 
 function getSpriteLabel(canvas) {
+  const texture = new THREE.CanvasTexture(canvas);
+
   const material = new THREE.SpriteMaterial({
-    map: new THREE.CanvasTexture( canvas )
+    map: texture
   });
-  console.log(material);
+  // console.log(material);
   const sprite = new THREE.Sprite( material );
 
-  sprite.scale.set(1, 1, 1);
+  sprite.scale.set(material.map.image.width/100, material.map.image.height/100, 1);
+  console.log(material.map.image.width/100, material.map.image.height/100);
 
   return sprite;
 }
