@@ -9,12 +9,14 @@ export default function addLabel(threeObj, text) {
   obj.geometry.computeBoundingSphere();
   const objBoundingSphereRadius = obj.geometry.boundingSphere.radius;
 
+  const objRadiusInCanvasPixels = null;
+
   const labelCanvas = getLabelCanvas(
     text,
     16,
     'white',
     'black',
-    objBoundingSphereRadius
+    10/objBoundingSphereRadius
   );
 
   const spriteLabel = getSpriteLabel(labelCanvas);
@@ -62,21 +64,20 @@ function getLabelCanvas(
 
   // add the background of the label
   ctx.fillStyle = sBgColor;
-  ctx.fillRect(canvas.width/2, (canvas.height / 2 - 2 * sphereRadius), textBoxWidth, textBoxHeight);
+  ctx.fillRect(canvas.width/2, (canvas.height/2 - 3*sphereRadius), textBoxWidth, textBoxHeight);
 
   ctx.fillStyle = sColor;
 
   // set the font styles again, as now they have reset because of the canvas resizing
   ctx.font = fontStyles;
 
-  ctx.fillText(sText, (canvas.width / 2 + textBoxPadding), (fontSize + textBoxPadding));
+  ctx.fillText(sText, (canvas.width/2 + textBoxPadding), (canvas.height/2 - 3*sphereRadius + fontSize));
 
   // draw a line from the bottom-center of the text to all the way down the canvas
   ctx.fillStyle = 'gray';
   // draw the underline
   ctx.beginPath();
-  ctx.moveTo((canvas.width / 2 - textBoxPadding), textBoxHeight / 2);
-  ctx.lineTo(canvas.width / 2, canvas.height / 6);
+  ctx.moveTo((canvas.width / 2), (canvas.height/2 - 3*sphereRadius));
   ctx.lineTo(canvas.width / 2, canvas.height / 2);
   ctx.stroke();
 
@@ -93,7 +94,6 @@ function getSpriteLabel(canvas) {
   const sprite = new THREE.Sprite( material );
 
   sprite.scale.set(material.map.image.width/100, material.map.image.height/100, 1);
-  console.log(material.map.image.width/100, material.map.image.height/100);
 
   return sprite;
 }
