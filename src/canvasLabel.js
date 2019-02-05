@@ -29,7 +29,7 @@ function getLabelCanvas(
   fontSize,
   sColor,
   sBgColor,
-  size
+  sphereRadius
 ) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -46,44 +46,36 @@ function getLabelCanvas(
   const textBoxWidth = textWidth + 2 * textBoxPadding;
   const textBoxHeight = fontSize + 2 * textBoxPadding;
 
-  // canvas height will be assigned from parameter
-  // canvas.height = 500;
-  canvas.width = textBoxWidth;
-  console.log(textBoxWidth);
-  // canvas.height = canvas.width;
-  // canvas.width = 512;
-  // canvas.height = 128;
+  // width and height have to be powers of two
+  canvas.width = 2048;
+  canvas.height = 2048;
+
   // canvas.height = size * 6;
-  
 
-  // offset is computed relative to height because of how the design looks like
-  const textBoxOffset = canvas.height / 4;
-  // canvas.width = (textBoxWidth + textBoxOffset) * 2;
+  console.log(
+    sphereRadius,
+    (canvas.height / 2 - 2 * sphereRadius),
+    canvas.height
+  );
+
   canvas.style.backgroundColor = "rgba(255, 255, 255, 0)";
-
-  // console.log(
-  //   `Canvas width: ${canvas.width}\n`,
-  //   `Canvas height: ${canvas.height}\n`,
-  //   `Textbox width: ${textBoxWidth}\n`,
-  //   `Obj sphere radius: ${size}\n`
-  // );
 
   // add the background of the label
   ctx.fillStyle = sBgColor;
-  ctx.fillRect((canvas.width / 2 + textBoxOffset), 0, textBoxWidth, textBoxHeight);
+  ctx.fillRect(canvas.width/2, (canvas.height / 2 - 2 * sphereRadius), textBoxWidth, textBoxHeight);
 
   ctx.fillStyle = sColor;
 
   // set the font styles again, as now they have reset because of the canvas resizing
   ctx.font = fontStyles;
 
-  ctx.fillText(sText, (canvas.width / 2 + textBoxOffset + textBoxPadding), (fontSize + textBoxPadding));
+  ctx.fillText(sText, (canvas.width / 2 + textBoxPadding), (fontSize + textBoxPadding));
 
   // draw a line from the bottom-center of the text to all the way down the canvas
   ctx.fillStyle = 'gray';
   // draw the underline
   ctx.beginPath();
-  ctx.moveTo((canvas.width / 2 + textBoxOffset - textBoxPadding), textBoxHeight / 2);
+  ctx.moveTo((canvas.width / 2 - textBoxPadding), textBoxHeight / 2);
   ctx.lineTo(canvas.width / 2, canvas.height / 6);
   ctx.lineTo(canvas.width / 2, canvas.height / 2);
   ctx.stroke();
