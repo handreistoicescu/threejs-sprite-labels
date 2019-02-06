@@ -5,7 +5,6 @@ const scene = new THREE.Scene();
 
 scene.background = new THREE.Color( 'salmon' );
 
-const ratio = window.clientWidth / window.clientHeight;
 const camera = new THREE.OrthographicCamera( 5 / - 2, 5 / 2, 5 / 2, 5 / - 2, 1, 1000 );
 
 const renderer = new THREE.WebGLRenderer();
@@ -24,6 +23,9 @@ scene.add( cubeWithLabel );
 camera.position.z = 5;
 
 console.log(camera);
+// check out this example: https://jsfiddle.net/wdnc02tf/9/
+// var scaleVector = new THREE.Vector3();
+// var scale = scaleVector.subVectors(planet.position, camera.position).length() / scaleFactor;
 
 function animate() {
   requestAnimationFrame( animate );

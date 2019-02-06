@@ -35,7 +35,7 @@ function getLabelCanvas(
 ) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  const fontStyles = `${fontSize}px monospace`;
+  const fontStyles = `${fontSize}px sans-serif`;
 
   // see how wide the text will be
   ctx.font = fontStyles;
@@ -90,10 +90,11 @@ function getSpriteLabel(canvas) {
   const material = new THREE.SpriteMaterial({
     map: texture
   });
-  // console.log(material);
+
   const sprite = new THREE.Sprite( material );
 
   sprite.scale.set(material.map.image.width/100, material.map.image.height/100, 1);
 
   return sprite;
 }
+
